@@ -1,0 +1,79 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block conteudo %}
+<h3> Permuta </h1>
+<p class="lead">    
+    Escolha um paciente para fazer a permuta.
+</p>
+
+<hr>
+
+<form action="{% url 'permuta-store' %}" method="POST">
+    {% csrf_token %}    
+    <div class="form-group">        
+        <label for="nomePacienteAgendado">Selecione um Paciente:</label>
+        <select id="listaPacientes" name="nomePacienteAgendado" class="form-control" placeholder="Enter email">
+            {% for paciente in pacientes %}
+                <option value="{{ paciente.id }}">{{ paciente.nome}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="d-none">
+        <div class="form-group">
+            <label for="motivo"></label>
+            <input type="hidden" class="form-control" id="motivo" name="motivo" value="" placeholder="Informe o motivo da permuta">
+        </div>
+        <div class="form-group">
+            <label for="vaga"></label>
+            <input type="hidden" class="form-control" id="vaga" name="vaga" value="{{ vagaOfertada.id }}">
+        </div>
+        <div class="form-group">
+            <label for="nomePacienteOfertado"></label>
+            <input type="hidden" class="form-control" id="nomePacienteOfertado" name="nomePacienteOfertado" value="{{ vagaOfertada.paciente.id }}">
+        </div>
+        <div class="form-group">
+            <label for="procedimento"></label>
+            <input type="hidden" class="form-control" id="procedimento" name="procedimento" value="{{ vagaOfertada.procedimento.id }}">
+        </div>
+        <div class="form-group">
+            <label for="data_vagaOfertada"></label>
+            <input type="hidden" class="form-control" id="data_vagaOfertada" name="data_vagaOfertada" value="{{ vagaOfertada.data_vagaOfertada  | date:'Y-m-d' }}">
+        </div>
+        <div class="form-group">
+            <label for="hora_vagaOfertada"></label>
+            <input type="hidden" class="form-control" id="hora_vagaOfertada" name="hora_vagaOfertada" value="{{ vagaOfertada.hora_vagaOfertada }}">
+        </div>
+        <div class="form-group">
+            <label for="unidadeExecutante"></label>
+            <input type="hidden" class="form-control" id="unidadeExecutante" name="unidadeExecutante" value="{{ vagaOfertada.unidadeExecutante.id }}">
+        </div>
+    </div>
+    <div class="form-group">
+        {{ vagaOfertada.paciente }}
+        
+        <h5 class="">Procedimento: {{ vagaOfertada.procedimento }}</h5>        
+        <p>Data: {{ vagaOfertada.data_vagaOfertada }} </p>
+        <p>Hora: {{ vagaOfertada.hora_vagaOfertada }}</p>
+        <p>Unidade: {{ vagaOfertada.unidadeExecutante }}</p>        
+    </div>
+    <button type="submit" class="btn btn-primary"><i class="fa fa-exchange"></i> Confirmar Permuta</button>
+</form>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+ $(document).ready(function(){
+    $("#id_Pacientes").select2();
+ });
+</script>
+{% endblock %}
+
+
+{% block rodape-links %}
+
+{% endblock %}

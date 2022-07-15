@@ -1,0 +1,14 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+"""
+{% block conteudo %}
+
+{% if request.user.is_authenticated %}
+    <h3>Página inicial</h3>
+    <p>Olá {{request.user.first_name}}</p>
+{% else %}
+    <h3>Página inicial</h3>    
+{% endif %}
+
+
+{% endblock %}

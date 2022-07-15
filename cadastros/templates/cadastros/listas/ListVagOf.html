@@ -1,0 +1,63 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+
+{% if message %}
+    <div class="alert alert-primary">{{ message }}</div>
+{% endif %}
+
+<h3 class="text-center">
+     <i class="fa fa-clipboard-list"></i>Procedimentos a serem permultados
+    <a href="{% url 'cadastrar-vagaofertada' %}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> Adicionar</a>
+</h3>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <th>Tipo</th>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Procedimento</th>
+            <th>Unidade Executante</th>            
+            <th>Opção</th>
+        </tr>        
+        {% for permuta in object_list %}
+            {% if permuta.status == False %}
+                <tr>
+                    <td>{{ permuta.tipo}}
+                    <td>{{ permuta.data_vagaOfertada|date:"d"}}/{{ permuta.data_vagaOfertada|date:"m"}}/{{ permuta.data_vagaOfertada|date:"Y"}}</td>
+                    <td>{{ permuta.hora_vagaOfertada }}</td>
+                    <td>{{ permuta.procedimento }}</td>
+                    <td>{{ permuta.unidadeExecutante }}</td>
+                    <td>
+                        <a href= "{% url 'editar-vagaofertada' permuta.pk %}" class="btn btn-warning btn-sm" title="Editar">
+                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        </a> 
+                        <a href="{% url 'excluir-vagaofertada' permuta.pk %}" class="btn btn-danger btn-sm" title="Excluir">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                                                
+                        </a>
+                    </td>
+                </tr>
+            {% endif %}
+        {% empty %}
+        <tr>
+            <td colspan="5">Nenhum campo registrado.</td>
+        </tr>
+        {% endfor %}
+    
+    </table>
+</div>
+{% endblock %}
+
+
+
+{% block rodape-links %}
+
+{% endblock %}
+
+

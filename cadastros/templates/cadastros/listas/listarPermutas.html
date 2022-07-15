@@ -1,0 +1,110 @@
+{% extends 'paginas/modelo-ifpr.html' %}
+
+{% load static %}
+
+{% block conteudo %}
+
+{% if message %}
+    <div class="alert alert-primary">{{ message }}</div>
+{% endif %}
+
+<h3 class="text-center">
+    <i class="fa fa-exchange"></i> 
+     Lista De Procedimento Para Permuta
+    <a href="{% url 'cadastrar-vagaofertada' %}" class="btn btn-primary btn-sm float-right"><i class="fa fa-plus"></i> Adicionar</a>
+</h3>
+
+<hr>
+
+<div class="table-responsive">
+    <table class="table table-striped" id="listar_permutas">
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Procedimento</th>
+                <th>Unidade Executante</th>
+                <th>Opções</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for vaga in vagas %}
+                {% if vaga.status == False %}
+            <tr>
+                <td>{{ vaga.tipo }}</td>               
+                <td>{{ vaga.data_vagaOfertada|date:"d"}}/{{ vaga.data_vagaOfertada|date:"m"}}/{{ vaga.data_vagaOfertada|date:"Y"}}</td>
+                <td>{{ vaga.hora_vagaOfertada }}</td>
+                <td>{{ vaga.procedimento }}</td>
+                <td>{{ vaga.unidadeExecutante }}</td>
+                <td>                    
+                    
+                    <a href="{% url 'show_permuta' vaga.id %}" class="btn btn-warning btn-sm" title="permuta" data-toggle="tooltip">
+                        <i class="fa fa-exchange" aria-hidden="true"></i>
+                    </a>                 
+                                        
+                </td>
+            </tr>
+                {% endif %}
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhuma atividade registrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+            
+    </table>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+
+    $(document).ready(function(){
+
+        $("#listar_permutas").DataTable({
+            responsive: true,
+            // "bSort": false,
+            "aaSorting": [],
+            "pageLength": 50,
+            "language": {
+                "decimal": "",
+                "emptyTable": "Sem dados disponíveis",
+                "info": "Mostrando de _START_ até _END_ de _TOTAL_ registos",
+                "infoEmpty": "Mostrando de 0 até 0 de 0 registos",
+                "infoFiltered": "(filtrado de _MAX_ registos no total)",
+                "infoPostFix": "",
+                "thousands": ",",
+                "lengthMenu": "Mostrar _MENU_ registos",
+                "loadingRecords": "A carregar dados...",
+                "processing": "A processar...",
+                "search": "Procurar:",
+                "zeroRecords": "Não foram encontrados resultados",
+                "paginate": {
+                    "first": "Primeiro",
+                    "last": "Último",
+                    "next": "Seguinte",
+                    "previous": "Anterior"
+                },
+                "aria": {
+                    "sortAscending": ": ordem crescente",
+                    "sortDescending": ": ordem decrescente"
+                }
+            }
+        });
+
+    });
+
+</script>
+{% endblock %}
+
+{% block rodape-links %}
+
+{% endblock %}
+
+
+
